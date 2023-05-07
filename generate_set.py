@@ -17,11 +17,16 @@ cols = args.columns
 if not os.path.exists("csvset"):
     os.makedirs("csvset")
 
+padding_file = len(str(NUMBER_OF_FILES))
+padding_line = len(str(NUMBER_OF_LINES))
+
 for i in tqdm(range(NUMBER_OF_FILES)):
-    with open(f'csvset/{i}.csv', 'w') as f:
+    filename = str(i).zfill(padding_file)
+    with open(f'csvset/{filename}.csv', 'w') as f:
         uppercase = list(ascii_uppercase[:cols])
         f.write(','.join(uppercase))
         f.write('\n')
         for l in range(NUMBER_OF_LINES):
-            f.write(','.join(f'{letter}{l}' for letter in uppercase))
+            l_str = str(l).zfill(padding_line)
+            f.write(','.join(f'{filename}{letter}{l_str}' for letter in uppercase))
             f.write('\n')
