@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"time"
 
 	"github.com/zeddo123/csvcat/v2/files"
@@ -19,7 +21,13 @@ func main() {
 	csvColumns := flag.String("columns", "", "Columns to be selected")
 	batchSize := flag.Int("batch", 30, "Batch size")
 	concurrently := flag.Bool("concurrency", true, "Set flag to disable concurrency")
+	verbose := flag.Bool("v", false, "Set to true to have verbose output")
 	flag.Parse()
+
+	// Disabling the logger
+	if !*verbose {
+		log.SetOutput(ioutil.Discard)
+	}
 
 	start := time.Now()
 	if *concurrently {
