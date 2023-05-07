@@ -1,6 +1,7 @@
 import os
 import argparse
 from string import ascii_uppercase
+from tqdm import tqdm
 
 
 parser = argparse.ArgumentParser('CSV set generator')
@@ -16,7 +17,7 @@ cols = args.columns
 if not os.path.exists("csvset"):
     os.makedirs("csvset")
 
-for i in range(NUMBER_OF_FILES):
+for i in tqdm(range(NUMBER_OF_FILES)):
     with open(f'csvset/{i}.csv', 'w') as f:
         uppercase = list(ascii_uppercase[:cols])
         f.write(','.join(uppercase))
