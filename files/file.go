@@ -1,13 +1,13 @@
 package files
 
 import (
-	"os"
-	"io"
-	"path/filepath"
-	"log"
-	"time"
-	"strings"
 	"errors"
+	"io"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
 
 	Line "github.com/zeddo123/csvcat/v2/files/lines"
 )

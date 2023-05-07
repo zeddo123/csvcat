@@ -13,7 +13,7 @@ func ProcessLine(line string, indexCols []int, csvDelimiter string) string {
 	cols := strings.Split(line, csvDelimiter)
 	numbercol := len(cols)
 	for _, index := range indexCols {
-		if numbercol > index{
+		if index < numbercol{
 			nl = append(nl, cols[index])
 		} else {
 			nl = append(nl, "")

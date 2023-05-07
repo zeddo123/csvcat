@@ -58,7 +58,7 @@ func CompileFiles(directory string, csvDelimiter string, output string, csvColum
 	// get files in the directory
 	var files = getfilenames(directory)
 
-	targetCols := strings.Split(csvColumns, directory)
+	targetCols := strings.Split(csvColumns, csvDelimiter)
 
 	fmt.Println("Number of files found:", len(files))
 
