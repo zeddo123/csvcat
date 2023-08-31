@@ -9,8 +9,8 @@ import (
 	"fmt"
 )
 
-func AsyncCompileFiles(directory string, csvDelimiter string, output string, csvColumns string, batchSize int) {
-	var files = getfilenames(directory)
+func AsyncCompileFiles(directory string, csvDelimiter string, output string, csvColumns string, batchSize int, checkFileExtension bool) {
+	var files = getfilenames(directory, checkFileExtension)
 
 	targetCols := strings.Split(csvColumns, csvDelimiter)
 
@@ -54,9 +54,9 @@ func AsyncCompileFiles(directory string, csvDelimiter string, output string, csv
 	}
 }
 
-func CompileFiles(directory string, csvDelimiter string, output string, csvColumns string) {
+func CompileFiles(directory string, csvDelimiter string, output string, csvColumns string, checkFileExtension bool) {
 	// get files in the directory
-	var files = getfilenames(directory)
+	var files = getfilenames(directory, checkFileExtension)
 
 	targetCols := strings.Split(csvColumns, csvDelimiter)
 
@@ -81,7 +81,7 @@ func CompileFiles(directory string, csvDelimiter string, output string, csvColum
 	}
 }
 
-func getfilenames(directory string) []string {
+func getfilenames(directory string, checkFileExtension bool) []string {
 	var files []string
 
 	entries, err := os.ReadDir(directory)
@@ -92,8 +92,10 @@ func getfilenames(directory string) []string {
 
 	for _, e := range entries {
 		// check if entry is a file and has correct file type
-		if e.Type().IsRegular() && strings.HasSuffix(e.Name(), ".csv") {
-			files = append(files, filepath.Join(path, e.Name()))
+		if e.Type().IsRegular() {
+			if !checkFileExtension || strings.HasSuffix(e.Name(), ".csv") {
+				files = append(files, filepath.Join(path, e.Name()))
+			}
 		}
 	}
 

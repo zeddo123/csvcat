@@ -18,6 +18,7 @@ Number of files found: 100
 Usage of ./csvcat:
   -batch int
     	Batch size (default 30)
+  -c	Set to false to ignore checking extension (default true)
   -columns string
     	Columns to be selected
   -concurrency
