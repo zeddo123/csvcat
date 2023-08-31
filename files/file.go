@@ -57,7 +57,7 @@ func filterColumnsAsync(bytes []byte, targetCols []string, csvDelimiter string) 
 	
 	jobchan := make(chan string, len(lines))
 	resultschan := make(chan string, len(lines))
-	for id := 0; id < int(math.Round(float64(len(lines)) * 0.10)); id++ {
+	for id := 0; id < int(math.Round(float64(len(lines)) * 0.5)); id++ {
 		go Line.ProcessLineWorker(id, jobchan, resultschan, indexCols, csvDelimiter)
 	}
 
@@ -71,6 +71,7 @@ func filterColumnsAsync(bytes []byte, targetCols []string, csvDelimiter string) 
 	for i := 0; i < len(lines); i++ {
 		ls = append(ls, <-resultschan)
 	}
+	close(resultschan)
 	return strings.Join(ls, "\n")
 }
 
