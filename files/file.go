@@ -36,6 +36,10 @@ func filterColumnsAsync(bytes []byte, targetCols []string, csvDelimiter string) 
 	lines := strings.Split(content, "\n")
 	firstLine := lines[0]
 	lines = lines[1:]
+
+	if len(lines) == 0 {
+		return ""
+	}
 	
 	indexCols := getColumnIndices(firstLine, targetCols, csvDelimiter)
 	
