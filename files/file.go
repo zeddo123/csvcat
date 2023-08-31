@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -37,6 +38,17 @@ func filterColumnsAsync(bytes []byte, targetCols []string, csvDelimiter string) 
 	firstLine := lines[0]
 	lines = lines[1:]
 
+	// remove all empty lines
+	n := 0
+	for _, line := range lines {
+		if len(strings.TrimSpace(line)) != 0 {
+			lines[n] = line
+			n++
+		}
+	}
+
+	lines = lines[:n]
+
 	if len(lines) == 0 {
 		return ""
 	}
@@ -45,7 +57,7 @@ func filterColumnsAsync(bytes []byte, targetCols []string, csvDelimiter string) 
 	
 	jobchan := make(chan string, len(lines))
 	resultschan := make(chan string, len(lines))
-	for id := 0; id < int(float64(len(lines)) * 0.01); id++ {
+	for id := 0; id < int(math.Round(float64(len(lines)) * 0.10)); id++ {
 		go Line.ProcessLineWorker(id, jobchan, resultschan, indexCols, csvDelimiter)
 	}
 
